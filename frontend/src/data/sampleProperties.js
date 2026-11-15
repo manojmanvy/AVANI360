@@ -206,3 +206,4 @@ export const SAMPLE_PROPERTIES = [
     updatedAt: new Date().toISOString(),
   }
 ]
+

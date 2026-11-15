@@ -85,3 +85,4 @@ jobs:
           files: output/BookMyLand-v1.0.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
