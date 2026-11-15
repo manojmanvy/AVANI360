@@ -1,0 +1,78 @@
+export const tamilNaduDistricts = [
+  'Ariyalur',
+  'Chengalpattu',
+  'Chennai',
+  'Coimbatore',
+  'Cuddalore',
+  'Dharmapuri',
+  'Dindigul',
+  'Erode',
+  'Kallakurichi',
+  'Kanchipuram',
+  'Kanyakumari',
+  'Karur',
+  'Krishnagiri',
+  'Madurai',
+  'Mayiladuthurai',
+  'Nagapattinam',
+  'Namakkal',
+  'Nilgiris',
+  'Perambalur',
+  'Pudukkottai',
+  'Ramanathapuram',
+  'Ranipet',
+  'Salem',
+  'Sivaganga',
+  'Tenkasi',
+  'Thanjavur',
+  'Theni',
+  'Thoothukudi',
+  'Tiruchirappalli',
+  'Tirunelveli',
+  'Tirupathur',
+  'Tiruppur',
+  'Tiruvallur',
+  'Tiruvannamalai',
+  'Tiruvarur',
+  'Vellore',
+  'Viluppuram',
+  'Virudhunagar',
+]
+
+export const popularDistricts = [
+  { name: 'Chennai', tagline: 'Metro plots & apartments', gradient: 'from-sage-800 via-sage-700 to-leaf-700' },
+  { name: 'Coimbatore', tagline: 'Growth corridors & villas', gradient: 'from-leaf-800 via-leaf-700 to-leaf-500' },
+  { name: 'Madurai', tagline: 'City living, timeless roots', gradient: 'from-sage-900 via-leaf-800 to-sage-600' },
+  { name: 'Tiruchirappalli', tagline: 'Central TN connectivity', gradient: 'from-leaf-900 via-sage-800 to-beige-600' },
+  { name: 'Salem', tagline: 'Farm land & hill country', gradient: 'from-beige-700 via-beige-600 to-leaf-600' },
+  { name: 'Erode', tagline: 'Industrial & residential plots', gradient: 'from-leaf-800 via-sage-700 to-sage-500' },
+  { name: 'Thanjavur', tagline: 'Heritage belt investments', gradient: 'from-beige-800 via-sage-800 to-leaf-700' },
+  { name: 'Tirunelveli', tagline: 'Southern TN value picks', gradient: 'from-sage-900 via-leaf-900 to-leaf-700' },
+]
+
+export const propertyTypes = [
+  'Residential Plot',
+  'Apartment',
+  'Villa',
+  'Farm Land',
+  'Commercial Plot',
+  'Agricultural Land',
+]
+
+export const categories = [
+  { label: 'Residential Plots', type: 'Residential Plot', icon: 'Map', blurb: 'Build-ready plots in growing neighbourhoods.' },
+  { label: 'Apartments', type: 'Apartment', icon: 'Building2', blurb: 'Move-in ready homes close to city conveniences.' },
+  { label: 'Villas', type: 'Villa', icon: 'Home', blurb: 'Private, spacious homes with premium finishes.' },
+  { label: 'Farm Land', type: 'Farm Land', icon: 'Sprout', blurb: 'Weekend farms and managed green retreats.' },
+  { label: 'Commercial Plots', type: 'Commercial Plot', icon: 'Store', blurb: 'High-visibility land for business and retail.' },
+  { label: 'Agricultural Land', type: 'Agricultural Land', icon: 'Trees', blurb: 'Productive land with clear revenue records.' },
+]
+
+export const budgetOptions = [
+  { label: 'Any budget', value: '' },
+  { label: 'Up to ₹25 Lakh', value: '2500000' },
+  { label: 'Up to ₹50 Lakh', value: '5000000' },
+  { label: 'Up to ₹1 Crore', value: '10000000' },
+  { label: 'Up to ₹2 Crore', value: '20000000' },
+  { label: 'Up to ₹5 Crore', value: '50000000' },
+]

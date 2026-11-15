@@ -1,0 +1,13 @@
+node_modules/
+dist/
+output/
+.env
+.env.local
+*.log
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pgdata/
+.DS_Store
+.ruff_cache/
