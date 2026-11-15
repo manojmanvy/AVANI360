@@ -3,9 +3,14 @@ import axios from 'axios'
 export const TOKEN_KEY = 'bml:token'
 export const SESSION_KEY = 'bml:session'
 
+// Automatically connect to live Render cloud backend in production / mobile APK builds
+const defaultBaseURL = import.meta.env.DEV
+  ? '/api/v1'
+  : 'https://bookmyland-1.onrender.com/api/v1'
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
-  timeout: 15000,
+  baseURL: import.meta.env.VITE_API_BASE_URL || defaultBaseURL,
+  timeout: 25000,
   headers: {
     'Content-Type': 'application/json',
   },
