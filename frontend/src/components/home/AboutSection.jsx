@@ -52,7 +52,7 @@ export default function AboutSection() {
           <div>
             <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-leaf-600">
               <span className="h-1.5 w-6 rounded-full bg-gradient-to-r from-leaf-500 to-beige-400" aria-hidden="true" />
-              Why BookMyLand
+              Greenyas Consultancy Services presents
             </span>
             <h2 className="mt-3 text-balance text-3xl font-extrabold tracking-tight text-navy-950 sm:text-4xl">
               Land buying in Tamil Nadu deserves local context.

@@ -68,9 +68,13 @@ export default function Navbar() {
       {/* Top micro bar for Trust & Schemes */}
       <div className="hidden border-b border-white/10 bg-forest py-1.5 text-xs text-white/80 sm:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-[11px] font-medium text-leaf-400">
-              <ShieldCheck size={13} /> 100% Admin Verified Tamil Nadu Land Portal
+              <ShieldCheck size={13} /> 100% Verified Tamil Nadu Land Portal
+            </span>
+            <span className="text-white/30">•</span>
+            <span className="text-[11px] text-white/70">
+              Greenyas Consultancy Services
             </span>
             <span className="text-white/30">•</span>
             <Link

@@ -21,6 +21,14 @@ BookMyLand is a full-stack real estate platform tailored specifically for Tamil 
 
 ---
 
+## 🏢 Managed By
+**GREENYAS CONSULTANCY SERVICES**
+- **Website:** [www.Greenyasdigitalads.com](http://www.Greenyasdigitalads.com)
+- **Email:** gcsdigitalads@gmail.com
+- **Address:** PI No 124/55, Periyamaniyaka Street, Chengalpattu, Tamil Nadu - 603002
+
+---
+
 ## 📱 Mobile App (Android APK)
 The Android APK is automatically built via GitHub Actions on every commit to `main`.
 You can download the latest `.apk` from the [Releases](https://github.com/manojmanvy/Bookmyland/releases) section or under **Actions > Artifacts**.

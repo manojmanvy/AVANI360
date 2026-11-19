@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, MapPin, ShieldAlert } from 'lucide-react'
+import { Building2, Globe, Mail, MapPin, ShieldAlert } from 'lucide-react'
 import Logo from './Logo.jsx'
 
 const exploreLinks = [
@@ -33,16 +33,34 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Logo light />
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-              A Tamil Nadu-first land and property marketplace. We connect buyers with owners, brokers
-              and builders, and support the journey from shortlist to registration.
+            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-beige-300">
+              <Building2 size={13} className="text-leaf-400" /> Greenyas Consultancy Services
+            </div>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/60">
+              A Tamil Nadu-first land and property marketplace connecting buyers with owners, brokers
+              and builders with transparent documentation and local guidance.
             </p>
-            <div className="mt-6 space-y-3 text-sm text-white/70">
-              <p className="flex items-center gap-2.5">
-                <MapPin size={16} className="text-leaf-400" /> Chennai, Tamil Nadu, India
+            <div className="mt-5 space-y-2.5 text-xs text-white/70">
+              <p className="flex items-start gap-2.5 leading-relaxed">
+                <MapPin size={15} className="mt-0.5 flex-shrink-0 text-leaf-400" />
+                <span>PI No 124/55, Periyamaniyaka Street, Chengalpattu, Tamil Nadu - 603002</span>
               </p>
               <p className="flex items-center gap-2.5">
-                <Mail size={16} className="text-leaf-400" /> hello@bookmyland.in
+                <Mail size={15} className="flex-shrink-0 text-leaf-400" />
+                <a href="mailto:gcsdigitalads@gmail.com" className="transition-colors hover:text-white">
+                  gcsdigitalads@gmail.com
+                </a>
+              </p>
+              <p className="flex items-center gap-2.5">
+                <Globe size={15} className="flex-shrink-0 text-leaf-400" />
+                <a
+                  href="http://www.Greenyasdigitalads.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-leaf-300"
+                >
+                  www.Greenyasdigitalads.com
+                </a>
               </p>
             </div>
           </div>
@@ -97,8 +115,19 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} BookMyLand. All rights reserved.</p>
-          <p>All listings are reviewed and approved by the BookMyLand team.</p>
+          <p>© {new Date().getFullYear()} BookMyLand. Managed by Greenyas Consultancy Services. All rights reserved.</p>
+          <div className="flex items-center gap-3">
+            <a
+              href="http://www.Greenyasdigitalads.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/60 transition-colors hover:text-leaf-300"
+            >
+              Greenyas Digital Ads
+            </a>
+            <span className="text-white/20">•</span>
+            <span className="text-white/40">Chengalpattu, TN</span>
+          </div>
         </div>
       </div>
     </footer>
