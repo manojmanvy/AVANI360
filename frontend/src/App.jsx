@@ -6,6 +6,7 @@ import PropertyDetailsPage from './pages/PropertyDetailsPage.jsx'
 import FavoritesPage from './pages/FavoritesPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
 import ListPropertyPage from './pages/ListPropertyPage.jsx'
 import AdminLoginPage from './pages/AdminLoginPage.jsx'
 import AdminDashboardPage from './pages/AdminDashboardPage.jsx'
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="favorites" element={<FavoritesPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="list-property" element={<ListPropertyPage />} />
         <Route element={<UserRoute />}>
           <Route path="account" element={<AccountPage />} />

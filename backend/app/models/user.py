@@ -28,6 +28,8 @@ class User(Base):
     )
     district: Mapped[str | None] = mapped_column(String(80))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    reset_otp: Mapped[str | None] = mapped_column(String(6), nullable=True)
+    reset_otp_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

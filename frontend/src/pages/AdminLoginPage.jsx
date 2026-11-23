@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle.js'
 import Container from '../components/ui/Container.jsx'
@@ -106,9 +106,17 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <label htmlFor="admin-password" className={labelClass}>
-                Password
-              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="admin-password" className={labelClass}>
+                  Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-semibold text-leaf-700 transition-colors hover:text-leaf-800 hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-navy-400" />
                 <input
