@@ -32,8 +32,14 @@ export default function Footer() {
       <div className="relative mx-auto w-full max-w-7xl px-4 pb-24 pt-16 sm:px-6 lg:px-8 lg:pb-10">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Logo light />
-            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-beige-300">
+            <div className="flex items-center gap-3">
+              <img
+                src="/brand-logo.jpg"
+                alt="AVANI 360 Real Estate & Developers"
+                className="h-16 w-auto rounded-xl bg-white/95 p-1.5 shadow-lg transition-transform duration-200 hover:scale-105"
+              />
+            </div>
+            <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-beige-300">
               <Building2 size={13} className="text-leaf-400" /> Greenyas Consultancy Services
             </div>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/60">

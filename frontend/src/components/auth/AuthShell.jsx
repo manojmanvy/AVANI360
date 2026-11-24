@@ -33,7 +33,7 @@ export default function AuthShell({ children }) {
                     Land decisions feel safer with local support.
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-white/60">
-                    BookMyLand brings listings, document checks and scheme guidance into one place,
+                    AVANI360 brings listings, document checks and scheme guidance into one place,
                     with a team that knows Tamil Nadu.
                   </p>
                   <ul className="mt-6 space-y-3">
