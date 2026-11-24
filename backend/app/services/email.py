@@ -1,6 +1,9 @@
 import asyncio
+import json
 import logging
 import smtplib
+import urllib.error
+import urllib.request
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -11,17 +14,8 @@ from app.core.config import settings
 logger = logging.getLogger(__name__)
 
 
-def _build_email_content(to_email: str, otp: str, user_name: str) -> MIMEMultipart:
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = Header(f"AVANI360 Security Code: {otp}", "utf-8")
-    msg["From"] = formataddr((str(Header(settings.smtp_from_name, "utf-8")), settings.smtp_from_email))
-    msg["To"] = to_email
-    msg["Date"] = formatdate(localtime=True)
-    msg["Message-ID"] = make_msgid(domain="avani360.in")
-    msg["X-Mailer"] = "AVANI360 Mailer"
-    msg["Precedence"] = "bulk"
-
-    # Plain-text version (critical for spam filter pass)
+def _get_email_texts(to_email: str, otp: str, user_name: str) -> tuple[str, str]:
+    """Generates plain text and rich HTML email contents."""
     plain_text = f"""Hello {user_name},
 
 We received a request to reset your password for your AVANI360 account.
@@ -38,7 +32,6 @@ Greenyas Consultancy Services
 Chengalpattu, Tamil Nadu - 603002
 """
 
-    # High quality, spam-free HTML template
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +107,20 @@ Chengalpattu, Tamil Nadu - 603002
 </body>
 </html>
 """
+    return plain_text, html_content
 
+
+def _build_email_content(to_email: str, otp: str, user_name: str) -> MIMEMultipart:
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = Header(f"AVANI360 Security Code: {otp}", "utf-8")
+    msg["From"] = formataddr((str(Header(settings.smtp_from_name, "utf-8")), settings.smtp_from_email))
+    msg["To"] = to_email
+    msg["Date"] = formatdate(localtime=True)
+    msg["Message-ID"] = make_msgid(domain="avani360.in")
+    msg["X-Mailer"] = "AVANI360 Mailer"
+    msg["Precedence"] = "bulk"
+
+    plain_text, html_content = _get_email_texts(to_email, otp, user_name)
     part1 = MIMEText(plain_text, "plain", "utf-8")
     part2 = MIMEText(html_content, "html", "utf-8")
     msg.attach(part1)
@@ -122,17 +128,103 @@ Chengalpattu, Tamil Nadu - 603002
     return msg
 
 
+def _send_brevo_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
+    """Sends email via Brevo HTTPS REST API on port 443 (never blocked by cloud firewalls)."""
+    api_key = (settings.brevo_api_key or "").strip()
+    if not api_key:
+        return False, "BREVO_API_KEY not configured"
+
+    plain_text, html_content = _get_email_texts(to_email, otp, user_name)
+    payload = {
+        "sender": {
+            "name": settings.smtp_from_name,
+            "email": settings.smtp_from_email,
+        },
+        "to": [
+            {"email": to_email, "name": user_name}
+        ],
+        "subject": f"AVANI360 Security Code: {otp}",
+        "htmlContent": html_content,
+        "textContent": plain_text,
+    }
+
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.brevo.com/v3/smtp/email",
+        data=data,
+        headers={
+            "accept": "application/json",
+            "api-key": api_key,
+            "content-type": "application/json",
+            "user-agent": "AVANI360/1.0",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            body = resp.read().decode("utf-8")
+            logger.info("Brevo email delivered to %s: %s", to_email, body)
+            return True, "Email delivered via Brevo HTTPS API"
+    except urllib.error.HTTPError as err:
+        err_body = err.read().decode("utf-8", errors="ignore")
+        logger.error("Brevo API error (%s): %s", err.code, err_body)
+        return False, f"Brevo API error ({err.code}): {err_body}"
+    except Exception as exc:
+        logger.error("Brevo request failed: %s", exc)
+        return False, f"Brevo request failed: {exc}"
+
+
+def _send_resend_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
+    """Sends email via Resend HTTPS REST API on port 443."""
+    api_key = (settings.resend_api_key or "").strip()
+    if not api_key:
+        return False, "RESEND_API_KEY not configured"
+
+    plain_text, html_content = _get_email_texts(to_email, otp, user_name)
+    payload = {
+        "from": f"{settings.smtp_from_name} <{settings.smtp_from_email}>",
+        "to": [to_email],
+        "subject": f"AVANI360 Security Code: {otp}",
+        "html": html_content,
+        "text": plain_text,
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=data,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "AVANI360/1.0",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            body = resp.read().decode("utf-8")
+            logger.info("Resend email delivered to %s: %s", to_email, body)
+            return True, "Email delivered via Resend HTTPS API"
+    except urllib.error.HTTPError as err:
+        err_body = err.read().decode("utf-8", errors="ignore")
+        logger.error("Resend API error (%s): %s", err.code, err_body)
+        return False, f"Resend API error ({err.code}): {err_body}"
+    except Exception as exc:
+        logger.error("Resend request failed: %s", exc)
+        return False, f"Resend request failed: {exc}"
+
+
 def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
+    """Attempts Gmail SMTP via direct SSL port 465 or STARTTLS port 587."""
     user = (settings.smtp_user or "").strip()
     pwd = (settings.smtp_password or "").replace(" ", "").strip()
     if not user or not pwd:
-        msg = "SMTP_USER or SMTP_PASSWORD not configured in Render Environment"
+        msg = "SMTP_USER or SMTP_PASSWORD not configured"
         logger.warning(msg)
         return False, msg
 
     msg = _build_email_content(to_email, otp, user_name)
 
-    # Attempt 1: Port 465 SSL (Direct SSL - universally open on cloud providers)
+    # Attempt 1: Port 465 SSL
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=12) as server:
             server.login(user, pwd)
@@ -158,6 +250,26 @@ def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]
         return False, err_msg
 
 
+def _send_email_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
+    """Unified email dispatcher: prefers HTTPS REST API (Port 443) over raw SMTP sockets."""
+    # 1. Brevo HTTPS API (Port 443 - 300 free emails/day, no card needed)
+    if settings.brevo_api_key:
+        ok, res = _send_brevo_http(to_email, otp, user_name)
+        if ok:
+            return ok, res
+        logger.warning("Brevo API failed (%s), trying fallbacks...", res)
+
+    # 2. Resend HTTPS API (Port 443)
+    if settings.resend_api_key:
+        ok, res = _send_resend_http(to_email, otp, user_name)
+        if ok:
+            return ok, res
+        logger.warning("Resend API failed (%s), trying fallbacks...", res)
+
+    # 3. Direct Gmail SMTP fallback
+    return _send_smtp_sync(to_email, otp, user_name)
+
+
 async def send_otp_email(to_email: str, otp: str, user_name: str = "User") -> tuple[bool, str]:
     """Sends OTP email asynchronously using threadpool executor."""
-    return await asyncio.to_thread(_send_smtp_sync, to_email, otp, user_name)
+    return await asyncio.to_thread(_send_email_sync, to_email, otp, user_name)

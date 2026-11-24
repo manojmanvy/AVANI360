@@ -20,7 +20,9 @@ class Settings(BaseSettings):
     first_admin_password: str = "admin123"
     first_admin_name: str = "AVANI360 Admin"
 
-    # SMTP Configuration for transactional emails (Gmail / Brevo / Resend)
+    # SMTP / Email API Configuration for transactional emails
+    brevo_api_key: str | None = None
+    resend_api_key: str | None = None
     smtp_host: str = "smtp.gmail.com"
     smtp_port: int = 587
     smtp_user: str | None = None
