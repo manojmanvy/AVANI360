@@ -102,13 +102,20 @@ async def forgot_password(payload: ForgotPasswordRequest, db: DbSession) -> Mess
     user.reset_otp_expires_at = expires_at
     await db.commit()
 
-    sent = await send_otp_email(user.email, otp, user.full_name)
+    sent, status_desc = await send_otp_email(user.email, otp, user.full_name)
     dev_otp = otp if not sent and settings.environment != "production" else None
+
+    if not sent:
+        return MessageResponse(
+            ok=True,
+            message=f"OTP generated for {email}. ({status_desc})",
+            dev_otp=dev_otp,
+        )
 
     return MessageResponse(
         ok=True,
         message=f"Verification OTP sent to {email}. Please check your inbox and spam folder.",
-        dev_otp=dev_otp,
+        dev_otp=None,
     )
 
 

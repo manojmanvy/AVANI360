@@ -1,4 +1,4 @@
-﻿import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Heart, LogOut, Mail, MapPin, Phone, ShieldCheck, UserRound } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle.js'
 import Container from '../components/ui/Container.jsx'

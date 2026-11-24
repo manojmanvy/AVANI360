@@ -122,31 +122,42 @@ Chengalpattu, Tamil Nadu - 603002
     return msg
 
 
-def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> bool:
-    if not settings.smtp_user or not settings.smtp_password:
-        logger.warning(
-            "SMTP credentials not configured (smtp_user / smtp_password). "
-            "OTP for %s is: %s",
-            to_email,
-            otp,
-        )
-        return False
+def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
+    user = (settings.smtp_user or "").strip()
+    pwd = (settings.smtp_password or "").replace(" ", "").strip()
+    if not user or not pwd:
+        msg = "SMTP_USER or SMTP_PASSWORD not configured in Render Environment"
+        logger.warning(msg)
+        return False, msg
 
+    msg = _build_email_content(to_email, otp, user_name)
+
+    # Attempt 1: Port 465 SSL (Direct SSL - universally open on cloud providers)
     try:
-        msg = _build_email_content(to_email, otp, user_name)
-        with smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=15) as server:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=12) as server:
+            server.login(user, pwd)
+            server.sendmail(settings.smtp_from_email, [to_email], msg.as_string())
+        logger.info("Successfully sent OTP email via SSL 465 to %s", to_email)
+        return True, "Email delivered via SSL 465"
+    except Exception as ssl_err:
+        logger.warning("Port 465 SSL failed (%s), attempting Port 587 STARTTLS...", ssl_err)
+
+    # Attempt 2: Port 587 STARTTLS
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=12) as server:
             server.ehlo()
             server.starttls()
             server.ehlo()
-            server.login(settings.smtp_user, settings.smtp_password)
+            server.login(user, pwd)
             server.sendmail(settings.smtp_from_email, [to_email], msg.as_string())
-        logger.info("Successfully sent OTP email to %s", to_email)
-        return True
+        logger.info("Successfully sent OTP email via STARTTLS 587 to %s", to_email)
+        return True, "Email delivered via STARTTLS 587"
     except Exception as exc:
-        logger.error("Failed to send OTP email to %s: %s", to_email, exc)
-        return False
+        err_msg = f"Gmail SMTP failed: {exc}"
+        logger.error(err_msg)
+        return False, err_msg
 
 
-async def send_otp_email(to_email: str, otp: str, user_name: str = "User") -> bool:
+async def send_otp_email(to_email: str, otp: str, user_name: str = "User") -> tuple[bool, str]:
     """Sends OTP email asynchronously using threadpool executor."""
     return await asyncio.to_thread(_send_smtp_sync, to_email, otp, user_name)
