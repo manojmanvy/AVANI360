@@ -62,7 +62,7 @@ export default function LoginPage() {
         Welcome back
       </span>
       <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-navy-950">
-        Login to BookMyLand
+        Login to AVANI360
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-navy-600">
         Sign in with the email and password you used when creating your account.
@@ -162,7 +162,7 @@ export default function LoginPage() {
       </form>
 
       <p className="mt-6 text-center text-sm text-navy-600">
-        New to BookMyLand?{' '}
+        New to AVANI360?{' '}
         <Link to="/register" className="font-bold text-leaf-700 underline-offset-4 hover:underline">
           Create an account
         </Link>
@@ -170,7 +170,7 @@ export default function LoginPage() {
 
       <div className="mt-6 rounded-xl border border-navy-200 bg-navy-50 px-4 py-3 text-xs leading-relaxed text-navy-700">
         <p className="flex items-center gap-1.5 font-bold text-navy-900">
-          <ShieldCheck size={14} /> BookMyLand team?
+          <ShieldCheck size={14} /> AVANI360 team?
         </p>
         <p className="mt-1">
           Admin accounts use the separate{' '}

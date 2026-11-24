@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle.js'
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
             </span>
             <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-white">Admin login</h1>
             <p className="mt-2 text-sm leading-relaxed text-white/60">
-              Restricted access for the BookMyLand review team. Manage listings, users and document
+              Restricted access for the AVANI360 review team. Manage listings, users and document
               verification.
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function AdminLoginPage() {
                   type="email"
                   value={form.email}
                   onChange={(event) => update('email', event.target.value)}
-                  placeholder="admin@bookmyland.in"
+                  placeholder="admin@avani360.in"
                   className={fieldClass}
                   aria-invalid={Boolean(errors.email)}
                 />

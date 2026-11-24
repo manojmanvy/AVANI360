@@ -306,7 +306,7 @@ export default function PropertyDetailsPage() {
 
               <div className="mt-4 flex items-center gap-2 rounded-xl bg-navy-50/70 px-3.5 py-3 text-xs text-navy-600">
                 <ShieldCheck size={16} className="flex-shrink-0 text-leaf-600" />
-                Listed by a {property.sellerType.toLowerCase()} · Approved by BookMyLand
+                Listed by a {property.sellerType.toLowerCase()} · Approved by AVANI360
               </div>
 
               <div className="my-5 h-px bg-navy-100" />

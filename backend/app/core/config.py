@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    app_name: str = "BookMyLand API"
+    app_name: str = "AVANI360 API"
     api_v1_prefix: str = "/api/v1"
     environment: str = "development"
 
@@ -16,17 +16,17 @@ class Settings(BaseSettings):
 
     cors_origins: str = "*"
 
-    first_admin_email: str = "admin@bookmyland.in"
+    first_admin_email: str = "admin@avani360.in"
     first_admin_password: str = "admin123"
-    first_admin_name: str = "BookMyLand Admin"
+    first_admin_name: str = "AVANI360 Admin"
 
     # SMTP Configuration for transactional emails (Gmail / Brevo / Resend)
     smtp_host: str = "smtp.gmail.com"
     smtp_port: int = 587
     smtp_user: str | None = None
     smtp_password: str | None = None
-    smtp_from_email: str = "gcsdigitalads@gmail.com"
-    smtp_from_name: str = "BookMyLand Security"
+    smtp_from_email: str = "avani360.gcs@gmail.com"
+    smtp_from_name: str = "AVANI360 Security"
     otp_expire_minutes: int = 10
 
     model_config = SettingsConfigDict(

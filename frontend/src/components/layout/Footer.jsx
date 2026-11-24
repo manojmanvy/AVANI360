@@ -18,7 +18,7 @@ const sellerLinks = [
 ]
 
 const companyLinks = [
-  { label: 'About BookMyLand', to: '/#about' },
+  { label: 'About AVANI360', to: '/#about' },
   { label: 'Government schemes', to: '/#schemes' },
   { label: 'Saved properties', to: '/favorites' },
   { label: 'Contact', to: '/#contact' },
@@ -47,8 +47,8 @@ export default function Footer() {
               </p>
               <p className="flex items-center gap-2.5">
                 <Mail size={15} className="flex-shrink-0 text-leaf-400" />
-                <a href="mailto:gcsdigitalads@gmail.com" className="transition-colors hover:text-white">
-                  gcsdigitalads@gmail.com
+                <a href="mailto:avani360.gcs@gmail.com" className="transition-colors hover:text-white">
+                  avani360.gcs@gmail.com
                 </a>
               </p>
               <p className="flex items-center gap-2.5">
@@ -108,14 +108,14 @@ export default function Footer() {
         <div className="mt-12 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-xs leading-relaxed text-white/60">
           <ShieldAlert size={18} className="mt-0.5 flex-shrink-0 text-beige-300" />
           <p>
-            BookMyLand is not a government agency. We provide free informational guidance for
+            AVANI360 is not a government agency. We provide free informational guidance for
             government housing schemes only. We do not guarantee eligibility, approval, allotment or
             subsidy. Always confirm details with the concerned government department.
           </p>
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} BookMyLand. Managed by Greenyas Consultancy Services. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} AVANI360. Managed by Greenyas Consultancy Services. All rights reserved.</p>
           <div className="flex items-center gap-3">
             <a
               href="http://www.Greenyasdigitalads.com"

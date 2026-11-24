@@ -86,7 +86,7 @@ const faqs = [
       'Creating a seller account and submitting a listing is free. Our team reviews every listing before it goes live. Paid plans and featured promotions will be introduced later.',
   },
   {
-    question: 'Who can list on BookMyLand?',
+    question: 'Who can list on AVANI360?',
     answer:
       'Individual property owners, registered brokers and agents, and builders or developers can all create seller accounts. Each role gets a matching dashboard.',
   },
@@ -115,7 +115,7 @@ export default function ListPropertyPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <Badge variant="green" className="bg-white/90">
-                <Home size={13} /> List with BookMyLand
+                <Home size={13} /> List with AVANI360
               </Badge>
               <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-navy-950 sm:text-5xl">
                 Sell your land with a team that handles the details.

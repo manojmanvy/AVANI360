@@ -160,7 +160,7 @@ export default function SellerDashboardPage() {
                   {editingListing ? 'Edit listing' : 'Add a new land listing'}
                 </h2>
                 <p className="mt-1 text-xs text-navy-500">
-                  Submitted listings go to the BookMyLand admin team for approval before buyers can see
+                  Submitted listings go to the AVANI360 admin team for approval before buyers can see
                   them.
                 </p>
               </div>
@@ -193,7 +193,7 @@ export default function SellerDashboardPage() {
           <div className="border-b border-navy-100 p-5">
             <h2 className="text-base font-extrabold text-navy-950">My listings</h2>
             <p className="mt-1 text-xs text-navy-500">
-              Buyer contact details are visible only to the BookMyLand admin team. You can see how many
+              Buyer contact details are visible only to the AVANI360 admin team. You can see how many
               buyers are interested.
             </p>
           </div>

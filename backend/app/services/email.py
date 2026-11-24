@@ -13,18 +13,18 @@ logger = logging.getLogger(__name__)
 
 def _build_email_content(to_email: str, otp: str, user_name: str) -> MIMEMultipart:
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = Header(f"BookMyLand Security Code: {otp}", "utf-8")
+    msg["Subject"] = Header(f"AVANI360 Security Code: {otp}", "utf-8")
     msg["From"] = formataddr((str(Header(settings.smtp_from_name, "utf-8")), settings.smtp_from_email))
     msg["To"] = to_email
     msg["Date"] = formatdate(localtime=True)
-    msg["Message-ID"] = make_msgid(domain="bookmyland.in")
-    msg["X-Mailer"] = "BookMyLand Mailer"
+    msg["Message-ID"] = make_msgid(domain="avani360.in")
+    msg["X-Mailer"] = "AVANI360 Mailer"
     msg["Precedence"] = "bulk"
 
     # Plain-text version (critical for spam filter pass)
     plain_text = f"""Hello {user_name},
 
-We received a request to reset your password for your BookMyLand account.
+We received a request to reset your password for your AVANI360 account.
 
 Your 6-digit verification code is: {otp}
 
@@ -33,7 +33,7 @@ This code will expire in {settings.otp_expire_minutes} minutes.
 If you did not request a password reset, you can safely ignore this email. Your account password will remain unchanged.
 
 Best regards,
-The BookMyLand Team
+The AVANI360 Team
 Greenyas Consultancy Services
 Chengalpattu, Tamil Nadu - 603002
 """
@@ -62,7 +62,7 @@ Chengalpattu, Tamil Nadu - 603002
                     </div>
                   </td>
                   <td style="padding-left: 12px; vertical-align: middle;">
-                    <span style="color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">BookMy<span style="color: #43bf8b;">Land</span></span>
+                    <span style="color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">AVANI<span style="color: #43bf8b;">360</span></span>
                     <div style="color: #cfdbcc; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Tamil Nadu</div>
                   </td>
                 </tr>
@@ -94,7 +94,7 @@ Chengalpattu, Tamil Nadu - 603002
               <hr style="border: none; border-top: 1px solid #eef2ed; margin: 24px 0;">
 
               <p style="font-size: 11px; color: #8ca187; margin: 0; line-height: 1.5;">
-                This is an automated security message from BookMyLand. Please do not reply directly to this email.
+                This is an automated security message from AVANI360. Please do not reply directly to this email.
               </p>
             </td>
           </tr>

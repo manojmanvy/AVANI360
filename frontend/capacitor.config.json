@@ -1,6 +1,6 @@
 {
-  "appId": "in.bookmyland.app",
-  "appName": "BookMyLand",
+  "appId": "in.avani360.app",
+  "appName": "AVANI360",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {

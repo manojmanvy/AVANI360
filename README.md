@@ -1,8 +1,8 @@
-# 🌾 BookMyLand
+# 🌾 AVANI360
 
 > Tamil Nadu's Premier Land & Property Marketplace — Built for Buyers, Sellers & Builders.
 
-BookMyLand is a full-stack real estate platform tailored specifically for Tamil Nadu, offering 99acres-inspired discovery, transparent pricing (₹/sq.ft, ₹/cent, ₹/acre), and direct admin-mediated buyer lead management.
+AVANI360 is a full-stack real estate platform tailored specifically for Tamil Nadu, offering 99acres-inspired discovery, transparent pricing (₹/sq.ft, ₹/cent, ₹/acre), and direct admin-mediated buyer lead management.
 
 ---
 
@@ -24,7 +24,7 @@ BookMyLand is a full-stack real estate platform tailored specifically for Tamil 
 ## 🏢 Managed By
 **GREENYAS CONSULTANCY SERVICES**
 - **Website:** [www.Greenyasdigitalads.com](http://www.Greenyasdigitalads.com)
-- **Email:** gcsdigitalads@gmail.com
+- **Email:** avani360.gcs@gmail.com
 - **Address:** PI No 124/55, Periyamaniyaka Street, Chengalpattu, Tamil Nadu - 603002
 
 ---

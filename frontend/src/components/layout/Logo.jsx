@@ -3,7 +3,7 @@ import { MapPin } from 'lucide-react'
 
 export default function Logo({ light = false, className = '' }) {
   return (
-    <Link to="/" className={`group inline-flex items-center gap-2.5 ${className}`} aria-label="BookMyLand home">
+    <Link to="/" className={`group inline-flex items-center gap-2.5 ${className}`} aria-label="AVANI360 home">
       <span
         className={`flex h-10 w-10 items-center justify-center rounded-xl shadow-soft transition-transform duration-200 group-hover:-translate-y-0.5 ${
           light
@@ -15,7 +15,7 @@ export default function Logo({ light = false, className = '' }) {
       </span>
       <span className="flex flex-col leading-none">
         <span className={`text-lg font-extrabold tracking-tight ${light ? 'text-white' : 'text-navy-950'}`}>
-          BookMy<span className={light ? 'text-leaf-300' : 'text-leaf-600'}>Land</span>
+          AVANI<span className={light ? 'text-leaf-300' : 'text-leaf-600'}>360</span>
         </span>
         <span
           className={`mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] ${

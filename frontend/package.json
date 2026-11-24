@@ -1,9 +1,9 @@
 {
-  "name": "bookmyland-frontend",
+  "name": "avani360-frontend",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "BookMyLand - Tamil Nadu real estate marketplace frontend",
+  "description": "AVANI360 - Tamil Nadu real estate and land marketplace frontend",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

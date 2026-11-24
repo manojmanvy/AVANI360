@@ -106,7 +106,7 @@ export default function AccountPage() {
                     <ShieldCheck size={14} /> Secured account
                   </p>
                   <p className="mt-1">
-                    Your profile and session are stored securely on the BookMyLand server. Saved
+                    Your profile and session are stored securely on the AVANI360 server. Saved
                     properties remain on this device.
                   </p>
                 </div>

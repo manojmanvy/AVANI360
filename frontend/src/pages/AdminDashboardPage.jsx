@@ -170,7 +170,7 @@ export default function AdminDashboardPage() {
             </span>
             <div>
               <p className="text-xs font-bold uppercase tracking-wide text-leaf-700">Admin console</p>
-              <h1 className="text-xl font-extrabold text-navy-950">{session?.name || 'BookMyLand Admin'}</h1>
+              <h1 className="text-xl font-extrabold text-navy-950">{session?.name || 'AVANI360 Admin'}</h1>
               <p className="text-xs text-navy-500">{session?.email}</p>
             </div>
           </div>

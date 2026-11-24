@@ -329,7 +329,7 @@ export default function RegisterPage() {
           </p>
 
           <div className="mt-6 rounded-xl border border-leaf-200 bg-leaf-50 px-4 py-3 text-xs leading-relaxed text-leaf-800">
-            Your account is created securely on the BookMyLand server. You can login right after
+            Your account is created securely on the AVANI360 server. You can login right after
             registering.
           </div>
         </>

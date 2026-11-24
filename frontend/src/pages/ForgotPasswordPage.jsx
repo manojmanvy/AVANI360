@@ -208,7 +208,7 @@ export default function ForgotPasswordPage() {
               />
             </div>
             <p className="mt-1.5 text-[11px] text-navy-500">
-              We will send a 6-digit OTP code directly to this Gmail / Email address.
+              We will send a 6-digit OTP code directly to this Gmail / Email address from AVANI360.
             </p>
           </div>
 

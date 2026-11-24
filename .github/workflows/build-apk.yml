@@ -1,4 +1,4 @@
-name: Build BookMyLand Android APK
+name: Build AVANI360 Android APK
 
 on:
   push:
@@ -52,13 +52,13 @@ jobs:
       - name: Rename APK for Easy Distribution
         run: |
           mkdir -p output
-          cp frontend/android/app/build/outputs/apk/debug/app-debug.apk output/BookMyLand-v1.0.apk
+          cp frontend/android/app/build/outputs/apk/debug/app-debug.apk output/AVANI360-v1.0.apk
 
       - name: Upload APK as GitHub Action Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BookMyLand-Android-APK
-          path: output/BookMyLand-v1.0.apk
+          name: AVANI360-Android-APK
+          path: output/AVANI360-v1.0.apk
           retention-days: 30
 
       - name: Publish GitHub Release with APK
@@ -66,23 +66,25 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
           tag_name: v1.0.0
-          name: BookMyLand Android v1.0.0
+          name: AVANI360 Android v1.0.0
           body: |
-            ## 📱 BookMyLand Android App Preview
+            ## 📱 AVANI360 Android App Preview
             
-            Tamil Nadu Real Estate & Land Marketplace.
+            Tamil Nadu Real Estate & Land Marketplace by Greenyas Consultancy Services.
             
             ### ✨ Included in this build:
+            - Brand: AVANI360 (Tamil Nadu Premier Land Marketplace)
             - 99acres-inspired Modern UI
             - Muted Sage Grey + Warm Cream Beige + Signature Green palette
             - Mobile Bottom Navigation bar with center "+Sell Land FREE" button
             - Slide-up bottom sheets for Seller Listing & Enquiry forms
             - Pre-loaded Tamil Nadu demo properties (Chennai, Coimbatore, Madurai, Trichy, Salem)
             - Direct Call & WhatsApp buyer enquiry system
+            - Forgot Password with 6-digit Gmail OTP
             
             ### 📥 Installation:
-            Download `BookMyLand-v1.0.apk` below and install on any Android phone (Android 7.0+).
-          files: output/BookMyLand-v1.0.apk
+            Download `AVANI360-v1.0.apk` below and install on any Android phone (Android 7.0+).
+          files: output/AVANI360-v1.0.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

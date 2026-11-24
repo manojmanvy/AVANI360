@@ -90,7 +90,7 @@ export default function PropertiesPage() {
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-navy-600 sm:text-base">
             Filter by district, property type and budget. Every listing shown here has been reviewed
-            and approved by the BookMyLand team.
+            and approved by the AVANI360 team.
           </p>
         </Container>
       </div>
