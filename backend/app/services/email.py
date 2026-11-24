@@ -130,9 +130,9 @@ def _build_email_content(to_email: str, otp: str, user_name: str) -> MIMEMultipa
 
 def _send_brevo_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
     """Sends email via Brevo HTTPS REST API on port 443 (never blocked by cloud firewalls)."""
-    api_key = (settings.brevo_api_key or "").strip()
+    api_key = (settings.brevo_api_key or "").strip().strip('"').strip("'")
     if not api_key:
-        return False, "BREVO_API_KEY not configured"
+        return False, "BREVO_API_KEY is empty or not configured in Render Environment"
 
     plain_text, html_content = _get_email_texts(to_email, otp, user_name)
     payload = {
@@ -176,9 +176,9 @@ def _send_brevo_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str
 
 def _send_resend_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
     """Sends email via Resend HTTPS REST API on port 443."""
-    api_key = (settings.resend_api_key or "").strip()
+    api_key = (settings.resend_api_key or "").strip().strip('"').strip("'")
     if not api_key:
-        return False, "RESEND_API_KEY not configured"
+        return False, "RESEND_API_KEY is empty or not configured in Render Environment"
 
     plain_text, html_content = _get_email_texts(to_email, otp, user_name)
     payload = {
@@ -252,22 +252,26 @@ def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]
 
 def _send_email_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]:
     """Unified email dispatcher: prefers HTTPS REST API (Port 443) over raw SMTP sockets."""
-    # 1. Brevo HTTPS API (Port 443 - 300 free emails/day, no card needed)
-    if settings.brevo_api_key:
+    brevo_key = (settings.brevo_api_key or "").strip().strip('"').strip("'")
+    if brevo_key:
         ok, res = _send_brevo_http(to_email, otp, user_name)
         if ok:
             return ok, res
-        logger.warning("Brevo API failed (%s), trying fallbacks...", res)
+        # Return exact Brevo failure directly so user knows the reason
+        return False, f"Brevo API error: {res}"
 
-    # 2. Resend HTTPS API (Port 443)
-    if settings.resend_api_key:
+    resend_key = (settings.resend_api_key or "").strip().strip('"').strip("'")
+    if resend_key:
         ok, res = _send_resend_http(to_email, otp, user_name)
         if ok:
             return ok, res
-        logger.warning("Resend API failed (%s), trying fallbacks...", res)
+        return False, f"Resend API error: {res}"
 
-    # 3. Direct Gmail SMTP fallback
-    return _send_smtp_sync(to_email, otp, user_name)
+    # If neither API key is configured, fallback to direct SMTP
+    ok, smtp_res = _send_smtp_sync(to_email, otp, user_name)
+    if not ok:
+        return False, f"BREVO_API_KEY missing in Render Environment. (Direct SMTP blocked: {smtp_res})"
+    return ok, smtp_res
 
 
 async def send_otp_email(to_email: str, otp: str, user_name: str = "User") -> tuple[bool, str]:
