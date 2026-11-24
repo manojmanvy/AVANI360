@@ -44,6 +44,10 @@ jobs:
         run: |
           npm install --save-dev @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
 
+      - name: Add Capacitor Android Platform
+        working-directory: frontend
+        run: npx cap add android
+
       - name: Generate Android icons from brand logo
         working-directory: frontend
         run: |
@@ -92,13 +96,10 @@ jobs:
           print('All icons done')
           EOF
 
-      - name: Add Capacitor Android Platform & Sync
+      - name: Sync Capacitor Android Project
         working-directory: frontend
         run: |
-          npx cap add android || true
           npx cap sync android
-          # Verify gradlew was created
-          ls -la android/
           ls -la android/gradlew || (echo "ERROR: gradlew not found!" && exit 1)
 
       - name: Grant Execute Permission to Gradle Wrapper
