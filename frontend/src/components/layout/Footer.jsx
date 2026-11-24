@@ -34,7 +34,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <img
-                src="/brand-logo.jpg"
+                src="/brand-logo-v2.jpg?v=2"
                 alt="AVANI 360 Real Estate & Developers"
                 className="h-16 w-auto rounded-xl bg-white/95 p-1.5 shadow-lg transition-transform duration-200 hover:scale-105"
               />

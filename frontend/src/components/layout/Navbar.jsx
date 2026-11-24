@@ -64,7 +64,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-sage-200/80 bg-cream/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-sage-200/80 bg-beige-200/90 backdrop-blur-md">
       {/* Top micro bar for Trust & Schemes */}
       <div className="hidden border-b border-white/10 bg-forest py-1.5 text-xs text-white/80 sm:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -109,7 +109,7 @@ export default function Navbar() {
       {/* Main Navbar */}
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-5">
-          <Logo />
+          <Logo variant="brand" />
 
           {/* 99acres-style City Selector Dropdown */}
           <div className="relative hidden md:block">
