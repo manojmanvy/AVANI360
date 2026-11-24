@@ -28,23 +28,79 @@ jobs:
         with:
           node-version: 22
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install Frontend Dependencies & Build Web Assets
         working-directory: frontend
         run: |
           npm install --legacy-peer-deps
           npm run build
 
-      - name: Install Capacitor & Generate Android Icons
+      - name: Install Capacitor packages
         working-directory: frontend
         run: |
-          npm install --save-dev @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets --legacy-peer-deps
-          # Generate Android icons and splash from brand-logo.png
-          npx @capacitor/assets generate \
-            --icon public/icon.png \
-            --splash public/splash.png \
-            --platform android || true
+          npm install --save-dev @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
+
+      - name: Generate Android icons from brand logo
+        working-directory: frontend
+        run: |
+          pip install Pillow
+          python - <<'EOF'
+          from PIL import Image
+          import os, shutil
+
+          # Sizes for mipmap- folders
+          sizes = {
+            'mipmap-mdpi': 48,
+            'mipmap-hdpi': 72,
+            'mipmap-xhdpi': 96,
+            'mipmap-xxhdpi': 144,
+            'mipmap-xxxhdpi': 192,
+          }
+
+          src_icon = Image.open('public/icon.png').convert('RGBA')
+
+          base = 'android/app/src/main/res'
+          os.makedirs(base, exist_ok=True)
+          for folder, size in sizes.items():
+            path = os.path.join(base, folder)
+            os.makedirs(path, exist_ok=True)
+            img = src_icon.resize((size, size), Image.LANCZOS)
+            img.save(os.path.join(path, 'ic_launcher.png'), 'PNG')
+            img.save(os.path.join(path, 'ic_launcher_round.png'), 'PNG')
+            print(f'Generated {folder}: {size}x{size}')
+
+          # Splash
+          splash_src = Image.open('public/splash.png').convert('RGB')
+          splash_sizes = {
+            'drawable-land-mdpi': (480,320),
+            'drawable-land-hdpi': (800,480),
+            'drawable-land-xhdpi': (1280,720),
+            'drawable-land-xxhdpi': (1600,960),
+            'drawable-port-mdpi': (320,480),
+            'drawable-port-hdpi': (480,800),
+            'drawable-port-xhdpi': (720,1280),
+            'drawable-port-xxhdpi': (960,1600),
+          }
+          for folder, size in splash_sizes.items():
+            path = os.path.join(base, folder)
+            os.makedirs(path, exist_ok=True)
+            img = splash_src.resize(size, Image.LANCZOS)
+            img.save(os.path.join(path, 'splash.png'), 'PNG')
+            print(f'Generated {folder}: {size}')
+          print('Done generating icons and splash')
+          EOF
+
+      - name: Add Capacitor Android Platform & Sync
+        working-directory: frontend
+        run: |
           npx cap add android || true
           npx cap sync android
+
+      - name: Accept Android SDK Licenses
+        run: |
+          yes | sdkmanager --licenses || true
 
       - name: Grant Execute Permission to Gradle Wrapper
         working-directory: frontend/android
@@ -52,7 +108,8 @@ jobs:
 
       - name: Build Android Debug APK
         working-directory: frontend/android
-        run: ./gradlew assembleDebug --no-daemon
+        run: |
+          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tail -100
 
       - name: Rename APK for Easy Distribution
         run: |
