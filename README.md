@@ -31,4 +31,4 @@ AVANI360 is a full-stack real estate platform tailored specifically for Tamil Na
 
 ## 📱 Mobile App (Android APK)
 The Android APK is automatically built via GitHub Actions on every commit to `main`.
-You can download the latest `.apk` from the [Releases](https://github.com/manojmanvy/avani360/releases) section or under **Actions > Artifacts**.
+You can download the latest `.apk` from the [Releases](https://github.com/manojmanvy/AVANI360/releases) section or under **Actions > Artifacts**.
