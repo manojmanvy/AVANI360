@@ -1,4 +1,4 @@
-﻿import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import Container from '../ui/Container.jsx'
 import Logo from '../layout/Logo.jsx'
 

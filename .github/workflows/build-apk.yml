@@ -63,6 +63,13 @@ jobs:
             'mipmap-xxhdpi': 144,
             'mipmap-xxxhdpi': 192,
           }
+          foreground_sizes = {
+            'mipmap-mdpi': 108,
+            'mipmap-hdpi': 162,
+            'mipmap-xhdpi': 216,
+            'mipmap-xxhdpi': 324,
+            'mipmap-xxxhdpi': 432,
+          }
 
           src = Image.open('public/icon.png').convert('RGBA')
           base = 'android/app/src/main/res'
@@ -75,6 +82,26 @@ jobs:
             img.save(os.path.join(path, 'ic_launcher.png'))
             img.save(os.path.join(path, 'ic_launcher_round.png'))
             print('Generated', folder, size)
+
+          for folder, size in foreground_sizes.items():
+            path = os.path.join(base, folder)
+            os.makedirs(path, exist_ok=True)
+            canvas = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+            logo = src.copy()
+            safe_size = int(size * 0.62)
+            logo.thumbnail((safe_size, safe_size), Image.LANCZOS)
+            canvas.paste(logo, ((size - logo.width) // 2, (size - logo.height) // 2), logo)
+            canvas.save(os.path.join(path, 'ic_launcher_foreground.png'))
+            print('Generated foreground', folder, size)
+
+          background_path = os.path.join(base, 'values', 'ic_launcher_background.xml')
+          os.makedirs(os.path.dirname(background_path), exist_ok=True)
+          with open(background_path, 'w') as f:
+            f.write('<?xml version="1.0" encoding="utf-8"?>\n')
+            f.write('<resources>\n')
+            f.write('    <color name="ic_launcher_background">#F9F9F5</color>\n')
+            f.write('</resources>\n')
+          print('Generated launcher background')
 
           splash_src = Image.open('public/splash.png').convert('RGB')
           splash_sizes = {
@@ -119,28 +146,28 @@ jobs:
           mkdir -p output
           APK_PATH=$(find frontend/android/app/build/outputs -name '*.apk' | head -n 1)
           if [ -z "$APK_PATH" ]; then echo "ERROR: APK not found!" && exit 1; fi
-          cp "$APK_PATH" output/AVANI360-v1.0.apk
+          cp "$APK_PATH" output/AVANI360-v1.2.0.apk
 
       - name: Upload APK as GitHub Action Artifact
         uses: actions/upload-artifact@v4
         with:
           name: AVANI360-Android-APK
-          path: output/AVANI360-v1.0.apk
+          path: output/AVANI360-v1.2.0.apk
           retention-days: 30
 
       - name: Publish GitHub Release with APK
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
-          tag_name: v1.1.0
-          name: AVANI360 Android v1.1.0
+          tag_name: v1.2.0
+          name: AVANI360 Android v1.2.0
           body: |
-            ## 📱 AVANI360 Android App v1.1.0
+            ## 📱 AVANI360 Android App v1.2.0
 
             Tamil Nadu Real Estate & Land Marketplace by Greenyas Consultancy Services.
 
-            ### ✨ What's new in v1.1.0:
-            - ✅ Official AVANI360 Brand Logo & App Icon
+            ### ✨ What's new in v1.2.0:
+            - ✅ Fixed Android app icon to show the AVANI360 brand logo
             - ✅ New splash screen with brand emblem
             - ✅ Beige Navbar with real logo
             - ✅ OTP Forgot-Password via Brevo (100% free, inbox delivery)
@@ -148,7 +175,7 @@ jobs:
             - ✅ Mobile Bottom Navigation bar
 
             ### 📥 Installation:
-            Download `AVANI360-v1.0.apk` and install on any Android phone (Android 7.0+).
-          files: output/AVANI360-v1.0.apk
+            Download `AVANI360-v1.2.0.apk` and install on any Android phone (Android 7.0+).
+          files: output/AVANI360-v1.2.0.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
