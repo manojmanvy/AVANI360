@@ -13,7 +13,7 @@ const labelClass = 'mb-1.5 block text-xs font-bold uppercase tracking-wide text-
 
 export default function AdminLoginPage() {
   usePageTitle('Admin login')
-  const { isAuthenticated, login, demoCredentials } = useAdminAuth()
+  const { isAuthenticated, login } = useAdminAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from || '/admin'
@@ -53,11 +53,6 @@ export default function AdminLoginPage() {
     navigate(from, { replace: true })
   }
 
-  const fillDemo = () => {
-    setForm({ email: demoCredentials.email, password: demoCredentials.password })
-    setErrors({})
-  }
-
   return (
     <section className="bg-forest py-12 sm:py-16">
       <Container>
@@ -95,7 +90,7 @@ export default function AdminLoginPage() {
                   type="email"
                   value={form.email}
                   onChange={(event) => update('email', event.target.value)}
-                  placeholder="admin@avani360.in"
+                  placeholder="avani360.gcs@gmail.com"
                   className={fieldClass}
                   aria-invalid={Boolean(errors.email)}
                 />
@@ -149,21 +144,10 @@ export default function AdminLoginPage() {
               Sign in as admin <ArrowRight size={16} />
             </button>
 
-            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-900">
-              <p className="font-bold">Demo credentials</p>
-              <p className="mt-1">
-                Email: <strong>{demoCredentials.email}</strong>
-                <br />
-                Password: <strong>{demoCredentials.password}</strong>
-              </p>
-              <button
-                type="button"
-                onClick={fillDemo}
-                className="mt-2 font-bold text-amber-900 underline underline-offset-2"
-              >
-                Fill demo credentials
-              </button>
-            </div>
+            <p className="text-center text-xs leading-relaxed text-navy-500">
+              Access is restricted to the AVANI360 admin team. Contact the administrator if you need
+              credentials.
+            </p>
           </form>
 
           <div className="mt-8 flex items-center justify-center">

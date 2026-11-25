@@ -16,8 +16,8 @@ class Settings(BaseSettings):
 
     cors_origins: str = "*"
 
-    first_admin_email: str = "admin@avani360.in"
-    first_admin_password: str = "admin123"
+    first_admin_email: str = "avani360.gcs@gmail.com"
+    first_admin_password: str | None = None
     first_admin_name: str = "AVANI360 Admin"
 
     # SMTP / Email API Configuration for transactional emails
@@ -46,6 +46,23 @@ class Settings(BaseSettings):
                 return v.replace("postgres://", "postgresql+psycopg://", 1)
             if v.startswith("postgresql://") and not v.startswith("postgresql+psycopg://"):
                 return v.replace("postgresql://", "postgresql+psycopg://", 1)
+        return v
+
+    @field_validator("first_admin_password")
+    @classmethod
+    def validate_first_admin_password(cls, v: str | None) -> str | None:
+        if v is None:
+            return v
+        if (
+            len(v) < 16
+            or not any(c.islower() for c in v)
+            or not any(c.isupper() for c in v)
+            or not any(c.isdigit() for c in v)
+            or not any(not c.isalnum() for c in v)
+        ):
+            raise ValueError(
+                "FIRST_ADMIN_PASSWORD must be at least 16 characters and include upper, lower, digit and special characters."
+            )
         return v
 
     @property

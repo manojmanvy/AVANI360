@@ -1,11 +1,6 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
 import { useAuth } from './AuthContext.jsx'
 
-const DEMO_ADMIN = {
-  email: 'admin@avani360.in',
-  password: 'admin123',
-}
-
 const AdminAuthContext = createContext(null)
 
 export function AdminAuthProvider({ children }) {
@@ -32,7 +27,6 @@ export function AdminAuthProvider({ children }) {
       isAuthenticated: isAdmin,
       login: adminLogin,
       logout,
-      demoCredentials: DEMO_ADMIN,
     }),
     [isAdmin, user, adminLogin, logout],
   )
