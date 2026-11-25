@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import Container from '../ui/Container.jsx'
 import { tamilNaduDistricts } from '../../data/districts.js'
-import api from '../../services/api.js'
+import api, { getErrorMessage } from '../../services/api.js'
 
 const fieldClass =
   'w-full rounded-xl border border-navy-200 bg-white px-3.5 py-2.5 text-sm text-navy-900 shadow-sm transition-colors placeholder:text-navy-300 focus:border-leaf-500 focus:outline-none focus:ring-2 focus:ring-leaf-100'
@@ -60,6 +60,7 @@ const tnSchemesList = [
 export default function SchemeSection() {
   const [form, setForm] = useState({ name: '', phone: '', district: '' })
   const [errors, setErrors] = useState({})
+  const [submitError, setSubmitError] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -83,16 +84,19 @@ export default function SchemeSection() {
     }
 
     setSubmitting(true)
+    setSubmitError('')
     try {
-      // Send as free enquiry/lead if endpoint accepts, or gracefully complete
-      await api.post('/enquiries', {
+      await api.post('/scheme-leads', {
         name: form.name.trim(),
         phone: form.phone.replace(/\s+/g, ''),
+        district: form.district,
         message: `Government Housing Scheme Assistance Request for ${form.district} district.`,
-      }).catch(() => undefined)
+      })
+      setSubmitted(true)
+    } catch (requestError) {
+      setSubmitError(getErrorMessage(requestError, 'Could not send your request. Please try again.'))
     } finally {
       setSubmitting(false)
-      setSubmitted(true)
     }
   }
 
@@ -240,6 +244,12 @@ export default function SchemeSection() {
                       <p className="mt-1 text-xs font-semibold text-rose-600">{errors.district}</p>
                     ) : null}
                   </div>
+
+                  {submitError ? (
+                    <p className="rounded-xl bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
+                      {submitError}
+                    </p>
+                  ) : null}
 
                   <button
                     type="submit"

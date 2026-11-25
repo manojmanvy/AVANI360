@@ -1,9 +1,10 @@
-from datetime import datetime, timedelta, timezone
-import random
+import secrets
+from datetime import UTC, datetime, timedelta
 
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import CurrentUser, DbSession
 from app.core.config import settings
@@ -23,6 +24,41 @@ from app.schemas.user import UserRead
 from app.services.email import send_otp_email
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+MAX_OTP_ATTEMPTS = 5
+
+
+def _clear_reset_otp(user: User) -> None:
+    user.reset_otp = None
+    user.reset_otp_expires_at = None
+    user.reset_otp_attempts = 0
+
+
+async def _validate_reset_otp(user: User, submitted: str, db: AsyncSession) -> None:
+    if not user.reset_otp:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired OTP. Please request a new code.",
+        )
+
+    now = datetime.now(UTC)
+    if user.reset_otp_expires_at is None or now > user.reset_otp_expires_at:
+        _clear_reset_otp(user)
+        await db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="OTP has expired. Please request a new code.",
+        )
+
+    if not verify_password(submitted, user.reset_otp):
+        user.reset_otp_attempts += 1
+        if user.reset_otp_attempts >= MAX_OTP_ATTEMPTS:
+            _clear_reset_otp(user)
+        await db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect OTP. Please request a new code.",
+        )
 
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
@@ -95,11 +131,12 @@ async def forgot_password(payload: ForgotPasswordRequest, db: DbSession) -> Mess
     if user is None or not user.is_active:
         return MessageResponse(message=generic_msg)
 
-    otp = f"{random.randint(100000, 999999)}"
-    expires_at = datetime.now(timezone.utc) + timedelta(minutes=settings.otp_expire_minutes)
+    otp = f"{secrets.randbelow(900000) + 100000:06d}"
+    expires_at = datetime.now(UTC) + timedelta(minutes=settings.otp_expire_minutes)
 
-    user.reset_otp = otp
+    user.reset_otp = hash_password(otp)
     user.reset_otp_expires_at = expires_at
+    user.reset_otp_attempts = 0
     await db.commit()
 
     sent, status_desc = await send_otp_email(user.email, otp, user.full_name)
@@ -123,28 +160,13 @@ async def forgot_password(payload: ForgotPasswordRequest, db: DbSession) -> Mess
 async def verify_otp(payload: VerifyOtpRequest, db: DbSession) -> MessageResponse:
     email = payload.email.lower().strip()
     user = await db.scalar(select(User).where(User.email == email))
-    if user is None or not user.reset_otp:
+    if user is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid or expired OTP. Please request a new code.",
         )
 
-    now = datetime.now(timezone.utc)
-    if user.reset_otp_expires_at is None or now > user.reset_otp_expires_at:
-        user.reset_otp = None
-        user.reset_otp_expires_at = None
-        await db.commit()
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="OTP has expired. Please request a new code.",
-        )
-
-    if user.reset_otp != payload.otp.strip():
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect OTP. Please enter the valid 6-digit code.",
-        )
-
+    await _validate_reset_otp(user, payload.otp.strip(), db)
     return MessageResponse(ok=True, message="OTP verified successfully.")
 
 
@@ -152,31 +174,15 @@ async def verify_otp(payload: VerifyOtpRequest, db: DbSession) -> MessageRespons
 async def reset_password(payload: ResetPasswordRequest, db: DbSession) -> MessageResponse:
     email = payload.email.lower().strip()
     user = await db.scalar(select(User).where(User.email == email))
-    if user is None or not user.reset_otp:
+    if user is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid or expired OTP request. Please request a new code.",
         )
 
-    now = datetime.now(timezone.utc)
-    if user.reset_otp_expires_at is None or now > user.reset_otp_expires_at:
-        user.reset_otp = None
-        user.reset_otp_expires_at = None
-        await db.commit()
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="OTP has expired. Please request a new code.",
-        )
-
-    if user.reset_otp != payload.otp.strip():
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect OTP. Please enter the valid 6-digit code.",
-        )
-
+    await _validate_reset_otp(user, payload.otp.strip(), db)
     user.password_hash = hash_password(payload.new_password)
-    user.reset_otp = None
-    user.reset_otp_expires_at = None
+    _clear_reset_otp(user)
     await db.commit()
 
     return MessageResponse(

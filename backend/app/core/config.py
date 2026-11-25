@@ -1,5 +1,6 @@
 from functools import lru_cache
-from pydantic import field_validator
+
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -64,6 +65,15 @@ class Settings(BaseSettings):
                 "FIRST_ADMIN_PASSWORD must be at least 16 characters and include upper, lower, digit and special characters."
             )
         return v
+
+    @model_validator(mode="after")
+    def validate_production_secrets(self) -> "Settings":
+        if self.environment.lower() == "production":
+            if self.jwt_secret == "change-me-in-env":
+                raise ValueError("JWT_SECRET must be set to a strong unique value in production.")
+            if self.cors_origins.strip() == "*":
+                raise ValueError("CORS_ORIGINS must list the frontend origins in production.")
+        return self
 
     @property
     def cors_origins_list(self) -> list[str]:

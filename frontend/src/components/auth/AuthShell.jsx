@@ -45,11 +45,6 @@ export default function AuthShell({ children }) {
                     ))}
                   </ul>
                 </div>
-
-                <p className="text-[11px] leading-relaxed text-white/35">
-                  Preview build Â· Demo accounts are stored in your browser until the backend is
-                  connected.
-                </p>
               </div>
             </div>
 

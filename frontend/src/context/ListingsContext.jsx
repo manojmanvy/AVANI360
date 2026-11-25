@@ -1,14 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import api, { getErrorMessage } from '../services/api.js'
 import { mapProperty, toPropertyPayload } from '../services/mappers.js'
-import { SAMPLE_PROPERTIES } from '../data/sampleProperties.js'
 import { useAuth } from './AuthContext.jsx'
 
 const ListingsContext = createContext(null)
 
 export function ListingsProvider({ children }) {
   const { user } = useAuth()
-  const [approvedListings, setApprovedListings] = useState(SAMPLE_PROPERTIES)
+  const [approvedListings, setApprovedListings] = useState([])
   const [myListings, setMyListings] = useState([])
   const [adminListings, setAdminListings] = useState([])
   const [loading, setLoading] = useState({ public: false, mine: false, admin: false })
@@ -18,12 +17,11 @@ export function ListingsProvider({ children }) {
     setLoading((current) => ({ ...current, public: true }))
     try {
       const { data } = await api.get('/properties', { params: { limit: 100 } })
-      const mapped = data.items.map(mapProperty)
-      setApprovedListings(mapped.length > 0 ? mapped : SAMPLE_PROPERTIES)
+      setApprovedListings(data.items.map(mapProperty))
       setError('')
-    } catch {
-      // If backend is unreachable (e.g. mobile APK client review), fall back to rich sample properties
-      setApprovedListings(SAMPLE_PROPERTIES)
+    } catch (requestError) {
+      setApprovedListings([])
+      setError(getErrorMessage(requestError, 'Could not load listings.'))
     } finally {
       setLoading((current) => ({ ...current, public: false }))
     }

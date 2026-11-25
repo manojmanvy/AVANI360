@@ -30,18 +30,7 @@ async def seed_admin() -> None:
             db.add(admin)
             print(f"Created admin account: {email}")
         else:
-            existing.full_name = settings.first_admin_name
-            existing.password_hash = hash_password(password)
-            existing.role = UserRole.admin
-            existing.is_active = True
-            print(f"Updated admin password: {email}")
-
-        old_admins = (
-            await db.scalars(select(User).where(User.role == UserRole.admin, User.email != email))
-        ).all()
-        for old_admin in old_admins:
-            old_admin.is_active = False
-            print(f"Disabled old admin account: {old_admin.email}")
+            print(f"Admin account already exists: {email}")
 
         await db.commit()
 

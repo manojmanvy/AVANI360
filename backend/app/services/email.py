@@ -169,7 +169,7 @@ def _send_brevo_http(to_email: str, otp: str, user_name: str) -> tuple[bool, str
         err_body = err.read().decode("utf-8", errors="ignore")
         logger.error("Brevo API error (%s): %s", err.code, err_body)
         return False, f"Brevo API error ({err.code}): {err_body}"
-    except Exception as exc:
+    except (urllib.error.URLError, OSError, ValueError) as exc:
         logger.error("Brevo request failed: %s", exc)
         return False, f"Brevo request failed: {exc}"
 
@@ -208,7 +208,7 @@ def _send_resend_http(to_email: str, otp: str, user_name: str) -> tuple[bool, st
         err_body = err.read().decode("utf-8", errors="ignore")
         logger.error("Resend API error (%s): %s", err.code, err_body)
         return False, f"Resend API error ({err.code}): {err_body}"
-    except Exception as exc:
+    except (urllib.error.URLError, OSError, ValueError) as exc:
         logger.error("Resend request failed: %s", exc)
         return False, f"Resend request failed: {exc}"
 
@@ -231,7 +231,7 @@ def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]
             server.sendmail(settings.smtp_from_email, [to_email], msg.as_string())
         logger.info("Successfully sent OTP email via SSL 465 to %s", to_email)
         return True, "Email delivered via SSL 465"
-    except Exception as ssl_err:
+    except (smtplib.SMTPException, OSError, TimeoutError) as ssl_err:
         logger.warning("Port 465 SSL failed (%s), attempting Port 587 STARTTLS...", ssl_err)
 
     # Attempt 2: Port 587 STARTTLS
@@ -244,7 +244,7 @@ def _send_smtp_sync(to_email: str, otp: str, user_name: str) -> tuple[bool, str]
             server.sendmail(settings.smtp_from_email, [to_email], msg.as_string())
         logger.info("Successfully sent OTP email via STARTTLS 587 to %s", to_email)
         return True, "Email delivered via STARTTLS 587"
-    except Exception as exc:
+    except (smtplib.SMTPException, OSError, TimeoutError) as exc:
         err_msg = f"Gmail SMTP failed: {exc}"
         logger.error(err_msg)
         return False, err_msg

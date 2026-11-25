@@ -18,7 +18,7 @@ not change application code, and production should use a separate database.
 
 import argparse
 import asyncio
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import delete, or_, select
 
@@ -663,7 +663,7 @@ async def seed() -> None:
         users = await upsert_demo_users(db)
         removed = await remove_demo_listings(db, users)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         for index, spec in enumerate(LISTINGS):
             property_type = spec["type"]
             highlights, amenities, documents = EXTRAS[property_type]
