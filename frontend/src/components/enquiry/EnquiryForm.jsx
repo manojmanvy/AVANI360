@@ -118,7 +118,7 @@ export default function EnquiryForm({ property }) {
         </span>
         <h3 className="mt-4 text-base font-bold text-navy-900">Interest sent to our team</h3>
         <p className="mt-2 text-sm leading-relaxed text-navy-600">
-          The BookMyLand team has received your details and will contact you within one working day.
+          The AVANI360 team has received your details and will contact you within one working day.
           Your name and phone number are shared with our team only, never with the seller.
         </p>
         <button
@@ -250,7 +250,7 @@ export default function EnquiryForm({ property }) {
 
       <p className="flex items-start gap-1.5 text-center text-[11px] leading-relaxed text-navy-400">
         <ShieldCheck size={13} className="mt-0.5 flex-shrink-0 text-leaf-600" />
-        Your details go to the BookMyLand team only. Sellers never see your contact information.
+        Your details go to the AVANI360 team only. Sellers never see your contact information.
       </p>
     </form>
   )

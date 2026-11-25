@@ -47,7 +47,7 @@ export default function HowItWorks() {
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-leaf-300">
               <span className="h-1.5 w-6 rounded-full bg-gradient-to-r from-leaf-400 to-beige-300" aria-hidden="true" />
-              How BookMyLand works
+              How AVANI360 works
             </span>
             <h2 className="mt-3 text-balance text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
               A calmer way to buy land in Tamil Nadu

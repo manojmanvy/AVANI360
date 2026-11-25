@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const TOKEN_KEY = 'bml:token'
-export const SESSION_KEY = 'bml:session'
+export const TOKEN_KEY = 'avani360:token'
+export const SESSION_KEY = 'avani360:session'
 
 // Automatically connect to live Render cloud backend in production / mobile APK builds
 const defaultBaseURL = import.meta.env.DEV

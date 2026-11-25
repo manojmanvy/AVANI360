@@ -91,7 +91,7 @@ async def forgot_password(payload: ForgotPasswordRequest, db: DbSession) -> Mess
     email = payload.email.lower().strip()
     user = await db.scalar(select(User).where(User.email == email))
 
-    generic_msg = f"If {email} is registered with BookMyLand, you will receive a 6-digit OTP code."
+    generic_msg = f"If {email} is registered with AVANI360, you will receive a 6-digit OTP code."
     if user is None or not user.is_active:
         return MessageResponse(message=generic_msg)
 

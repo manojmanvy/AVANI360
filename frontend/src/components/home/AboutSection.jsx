@@ -32,7 +32,7 @@ export default function AboutSection() {
             <div className="overflow-hidden rounded-[2rem] border-4 border-white shadow-float ring-1 ring-sage-200">
               <img
                 src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
-                alt="Open land in Tamil Nadu used as a sample BookMyLand visual"
+                alt="Open land in Tamil Nadu used as a sample AVANI360 visual"
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-sage-950/60 via-sage-900/10 to-transparent" />
@@ -59,7 +59,7 @@ export default function AboutSection() {
             </h2>
             <p className="mt-3 text-balance text-base leading-relaxed text-navy-600">
               A listing alone is not enough. Buyers need to understand the district, the documents
-              and the people behind the property. BookMyLand brings all three together.
+              and the people behind the property. AVANI360 brings all three together.
             </p>
 
             <div className="mt-7 space-y-5">

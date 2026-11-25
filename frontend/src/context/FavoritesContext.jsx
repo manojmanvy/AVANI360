@@ -4,7 +4,7 @@ import useLocalStorage from '../hooks/useLocalStorage.js'
 const FavoritesContext = createContext(null)
 
 export function FavoritesProvider({ children }) {
-  const [favoriteIds, setFavoriteIds] = useLocalStorage('bml:favorites', [])
+  const [favoriteIds, setFavoriteIds] = useLocalStorage('avani360:favorites', [])
 
   const toggleFavorite = useCallback(
     (id) => {

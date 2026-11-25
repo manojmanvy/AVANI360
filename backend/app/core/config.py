@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     environment: str = "development"
 
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/bookmyland"
+    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/avani360"
 
     jwt_secret: str = "change-me-in-env"
     jwt_algorithm: str = "HS256"

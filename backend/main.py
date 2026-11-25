@@ -1,13 +1,34 @@
+import asyncio
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+from pathlib import Path
+
+from alembic import command
+from alembic.config import Config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
 from app.core.eventloop import configure_windows_event_loop
+from seed import seed_admin
 
 configure_windows_event_loop()
 
-app = FastAPI(title=settings.app_name, version="0.1.0")
+BACKEND_DIR = Path(__file__).resolve().parent
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    alembic_config = Config(str(BACKEND_DIR / "alembic.ini"))
+    alembic_config.set_main_option("script_location", str(BACKEND_DIR / "alembic"))
+    await asyncio.to_thread(command.upgrade, alembic_config, "head")
+    if settings.first_admin_password:
+        await seed_admin()
+    yield
+
+
+app = FastAPI(title=settings.app_name, version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

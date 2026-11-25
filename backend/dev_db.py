@@ -12,7 +12,7 @@ LOG_FILE = BACKEND_DIR / "postgres.log"
 HOST = "127.0.0.1"
 PORT = 5432
 DB_USER = "postgres"
-DB_NAME = "bookmyland"
+DB_NAME = "avani360"
 
 
 def _exe(name: str) -> str:
@@ -76,7 +76,7 @@ def _init() -> None:
 
 
 def _ensure_database() -> None:
-    if _psql("SELECT 1 FROM pg_database WHERE datname = 'bookmyland'") != "1":
+    if _psql(f"SELECT 1 FROM pg_database WHERE datname = '{DB_NAME}'") != "1":
         _psql(f'CREATE DATABASE "{DB_NAME}"')
         print(f"created database {DB_NAME}")
 

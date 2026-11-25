@@ -149,7 +149,7 @@ export default function ListPropertyPage() {
                 <div className="relative aspect-[4/3]">
                   <img
                     src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
-                    alt="Modern home listed by a BookMyLand seller"
+                    alt="Modern home listed by a AVANI360 seller"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-sage-950/70 via-sage-950/10 to-transparent" />

@@ -5,12 +5,12 @@ Usage:
     .\\.venv\\Scripts\\python.exe seed_demo.py clear
 
 Demo accounts (password: demo1234):
-    arun.seller@demo.bookmyland.in     (seller)
-    balaji.builder@demo.bookmyland.in  (builder)
-    meena.seller@demo.bookmyland.in    (seller)
-    buyer@demo.bookmyland.in           (buyer)
+    arun.seller@demo.avani360.in     (seller)
+    balaji.builder@demo.avani360.in  (builder)
+    meena.seller@demo.avani360.in    (seller)
+    buyer@demo.avani360.in           (buyer)
 
-This script only touches the local `bookmyland` Postgres database. It does
+This script only touches the local `avani360` Postgres database. It does
 not change application code, and production should use a separate database.
 
 `clear` removes the demo users and (by cascade) all their listings.
@@ -29,8 +29,8 @@ from app.models.enums import ListingStatus, PropertyType, UserRole
 from app.models.property import Property
 from app.models.user import User
 
-DEMO_DOMAIN = "demo.bookmyland.in"
-LEGACY_DEMO_DOMAINS = ("demo.bookmyland.test",)
+DEMO_DOMAIN = "demo.avani360.in"
+LEGACY_DEMO_DOMAINS = ("demo.bookmyland.in", "demo.bookmyland.test")
 DEMO_PASSWORD = "demo1234"
 
 DEMO_USERS = [

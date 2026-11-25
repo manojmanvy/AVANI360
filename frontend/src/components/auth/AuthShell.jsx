@@ -17,7 +17,7 @@ export default function AuthShell({ children }) {
             <div className="relative hidden min-h-[36rem] lg:block">
               <img
                 src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80"
-                alt="Modern home used as a sample BookMyLand visual"
+                alt="Modern home used as a sample AVANI360 visual"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-leaf-950/95 via-sage-950/90 to-leaf-900/85" />

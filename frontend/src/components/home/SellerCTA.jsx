@@ -53,7 +53,7 @@ export default function SellerCTA() {
                 Have land or a property to sell?
               </h2>
               <p className="mt-3 max-w-xl text-base leading-relaxed text-navy-600">
-                List with BookMyLand and reach buyers who are actively searching across Tamil Nadu.
+                List with AVANI360 and reach buyers who are actively searching across Tamil Nadu.
                 We help with enquiries, site visits and the next steps.
               </p>
 

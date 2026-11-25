@@ -142,7 +142,7 @@ export default function SchemeSection() {
               <div className="mt-6 flex items-start gap-3 rounded-2xl border border-beige-300/30 bg-beige-300/10 px-4 py-3 text-xs leading-relaxed text-beige-100/90">
                 <ShieldAlert size={18} className="mt-0.5 flex-shrink-0 text-beige-300" />
                 <p>
-                  BookMyLand is an independent platform and not a government body. Guidance is purely informational and free. Please verify official terms with the respective departments.
+                  AVANI360 is an independent platform and not a government body. Guidance is purely informational and free. Please verify official terms with the respective departments.
                 </p>
               </div>
             </div>
